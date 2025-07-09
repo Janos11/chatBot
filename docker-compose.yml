@@ -5,7 +5,7 @@ services:
     privileged: true    # Full hardware access
     user: root          # Force container to run as root
     ports:
-      - "83:80"          # Apache for chatbot
+      - "85:80"          # Apache for chatbot
       - "8888:8787"      # WebSocket or other real-time comms
       - "5001:5000"      # Flask backend API (internally 5000)
     volumes:
