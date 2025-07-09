@@ -1,0 +1,14 @@
+services:
+  web_server:
+    build: ./web
+    container_name: robot_web
+    privileged: true  # Full hardware access
+    user: root  # Force container to run as root
+    ports:
+      - "83:80"          # Apache
+      - "8787:8787"      # Existing websocket for robot control
+      - "5000:5000"      # Flask save_lead app
+    volumes:
+      - ./web/html:/usr/local/apache2/htdocs
+      - ./web/cgi-bin:/usr/local/apache2/cgi-bin
+    restart: unless-stopped
