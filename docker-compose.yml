@@ -1,7 +1,7 @@
 services:
   web_server:
-    build: ./web
-    container_name: robot_web
+    build: .
+    container_name: chatBot
     privileged: true  # Full hardware access
     user: root  # Force container to run as root
     ports:
