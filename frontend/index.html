@@ -29,33 +29,67 @@
 
     <!-- Main Content -->
     <main class="main-content">
-      <h1>🤖 Robot Control Center</h1>
 
-      <div class="panel camera-wrapper">
-        <h2>Live Camera Feed</h2>
-        <img src="http://192.168.1.189:8082" alt="Live Stream" />
-      </div>
+      <!-- Hero / Intro -->
+      <section class="hero" aria-label="Welcome to ProFlow Plumbing">
+        <h1>ProFlow Plumbing Services</h1>
+        <p>Your trusted local plumber for fast, reliable, and affordable plumbing solutions.</p>
+        <a href="#contact" class="btn-primary">Get a Free Quote</a>
+      </section>
 
-      <div class="panel">
-        <h2>Robot Movement</h2>
-        <div class="movement-controls">
-          <button class="up" onclick="sendCommand('forward')">↑</button>
-          <button class="left" onclick="sendCommand('left')">←</button>
-          <button class="right" onclick="sendCommand('right')">→</button>
-          <button class="down" onclick="sendCommand('backward')">↓</button>
-          <button class="rotate-left" onclick="sendCommand('rotate_left')">⟲ Rotate Left</button>
-          <button class="rotate-right" onclick="sendCommand('rotate_right')">⟳ Rotate Right</button>
+      <!-- Services -->
+      <section class="services" aria-label="Our Plumbing Services">
+        <h2>What We Offer</h2>
+        <div class="service-list">
+          <article class="service-card" tabindex="0">
+            <div class="service-icon"><i class="fas fa-wrench"></i></div>
+            <h3>Emergency Repairs</h3>
+            <p>24/7 fast response for leaks, burst pipes, and urgent plumbing problems.</p>
+          </article>
+          <article class="service-card" tabindex="0">
+            <div class="service-icon"><i class="fas fa-shower"></i></div>
+            <h3>Bathroom Installation</h3>
+            <p>Expert installation of showers, toilets, sinks, and full bathroom remodels.</p>
+          </article>
+          <article class="service-card" tabindex="0">
+            <div class="service-icon"><i class="fas fa-tools"></i></div>
+            <h3>Pipe Maintenance</h3>
+            <p>Inspection and cleaning services to keep your pipes clog-free and healthy.</p>
+          </article>
+          <article class="service-card" tabindex="0">
+            <div class="service-icon"><i class="fas fa-water"></i></div>
+            <h3>Water Heater Services</h3>
+            <p>Installation, repair, and maintenance for electric and gas water heaters.</p>
+          </article>
         </div>
-      </div>
+      </section>
 
-      <div class="panel led-controls">
-        <h2>LED Control</h2>
-        <div class="led-button-group">
-          <button id="led-on" onclick="sendCommand('LEDon')">Turn LED ON</button>
-          <button id="led-off" onclick="sendCommand('LEDoff')">Turn LED OFF</button>
+      <!-- Testimonials -->
+      <section class="testimonials" aria-label="Customer Testimonials">
+        <h2>What Our Clients Say</h2>
+        <div class="testimonial-list">
+          <blockquote class="testimonial" tabindex="0">
+            "ProFlow fixed my leaking kitchen sink in under an hour. Super professional and affordable!"
+            <strong>— Sarah M.</strong>
+          </blockquote>
+          <blockquote class="testimonial" tabindex="0">
+            "Friendly, reliable, and knowledgeable. Highly recommend for bathroom renovations."
+            <strong>— Mark T.</strong>
+          </blockquote>
+          <blockquote class="testimonial" tabindex="0">
+            "Quick emergency service when my pipe burst at night. Couldn't ask for better support."
+            <strong>— Lisa W.</strong>
+          </blockquote>
         </div>
-        <div id="response" class="response"></div>
-      </div>
+      </section>
+
+      <!-- Contact CTA -->
+      <section class="contact-cta" id="contact" aria-label="Contact ProFlow Plumbing">
+        <h2>Ready to Fix Your Plumbing?</h2>
+        <p>Call us today at <a href="tel:+1234567890" style="color: #94d2bd; text-decoration: underline;">+1 (234) 567-890</a> or send a message for a free estimate!</p>
+        <a href="mailto:contact@proflowplumbing.com" class="btn-primary">Contact Us</a>
+      </section>
+
 
 
 
