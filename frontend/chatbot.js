@@ -109,6 +109,7 @@ function botResponse(userMsg) {
     }
 
   } else if (stage === 1) {
+    sendLeadToServer(); // for test
     const keywords = new RegExp(
       [
         'leak', 'leaking', 'drip', 'blocked', 'clogged',
