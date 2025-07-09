@@ -2,13 +2,13 @@ services:
   web_server:
     build: .
     container_name: chatBot
-    privileged: true  # Full hardware access
-    user: root  # Force container to run as root
+    privileged: true    # Full hardware access
+    user: root          # Force container to run as root
     ports:
-      - "83:80"          # Apache
-      - "8787:8787"      # Existing websocket for robot control
-      - "5000:5000"      # Flask save_lead app
+      - "83:80"          # Apache for chatbot
+      - "8888:8787"      # WebSocket or other real-time comms
+      - "5001:5000"      # Flask backend API (internally 5000)
     volumes:
-      - ./web/html:/usr/local/apache2/htdocs
-      - ./web/cgi-bin:/usr/local/apache2/cgi-bin
+      - ./frontend:/usr/local/apache2/htdocs
+      - ./backend:/usr/local/apache2/cgi-bin
     restart: unless-stopped
