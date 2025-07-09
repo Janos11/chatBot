@@ -567,7 +567,8 @@ input {
 
 /* Hero section */
 .hero {
-background: url('https://images.unsplash.com/photo-1580582932044-92467d0410db?auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+/*background: url('https://unsplash.com/photos/a-man-working-on-a-pipe-in-a-cabinet-wzIjLL4KB-4') no-repeat center center/cover;*/
+background: url('images/hero_pipes_1920.jpg') no-repeat center center/cover;
 color: white;
 padding: 5rem 2rem 6rem;
 text-align: center;
