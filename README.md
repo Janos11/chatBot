@@ -54,6 +54,11 @@ or learning modern development practices in embedded environments.
 - Managed via **Docker Compose** for ease of orchestration and service isolation.
 - Web server hosted using **Apache2** inside a container (acts as reverse proxy for the backend and serves static front-end files).
 
+[ChatBot Communication Guide](documents/chatbot_comm.md)<br/>
+[Save customer info](documents/Save_customer_info.md)
+
+
+
 ---
 
 ## 📄 Technologies Used

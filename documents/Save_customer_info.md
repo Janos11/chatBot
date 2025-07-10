@@ -216,6 +216,9 @@ stderr_logfile=/dev/stderr
 Rebuild the container:
 `docker compose down && docker compose up -d`
 
+ Rebuild Properly:
+`docker compose build --no-cache`
+it will take longer.
 ---
 
 ## 🧪 Testing
@@ -227,7 +230,7 @@ python3 save_lead.py
 
 ### Test via browser console:
 ```bash
-curl -X POST http://192.168.1.189:5000/send-lead \
+curl -X POST http://192.168.1.189:5001/send-lead \
   -H "Content-Type: application/json" \
   -d '{"name":"John", "email":"john@example.com"}'
 ```
