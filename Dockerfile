@@ -33,5 +33,8 @@ RUN /opt/venv/bin/pip install flask requests
 # Copy the supervisor config
 COPY supervisord.conf /etc/supervisord.conf
 
+# Copy the apache2 config
+COPY backend/httpd.conf /usr/local/apache2/conf/httpd.conf
+
 # Start both services using supervisord
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
