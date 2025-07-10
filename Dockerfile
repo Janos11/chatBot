@@ -25,7 +25,7 @@ RUN echo '#!/bin/sh\nsudo /usr/bin/python3 "$@"' > /usr/local/bin/python3-cgi &&
 RUN python3 -m venv /opt/venv
 
 # Install Python packages
-RUN /opt/venv/bin/pip install websockets RPi.GPIO
+RUN /opt/venv/bin/pip install websockets
 
 # Install Flask and requests for save_leads.py
 RUN /opt/venv/bin/pip install flask requests
