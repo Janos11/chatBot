@@ -12,7 +12,8 @@ let userData = {
   phone: "",
   email: "",
   postcode: "",
-  timestamp: "",
+  timestamp_frontend: "",
+  timestamp_backend: "",
 };
 
 // Response logic
@@ -57,7 +58,7 @@ const responses = {
         <li><strong>Email:</strong> ${userData.email}</li>
         <li><strong>Postcode:</strong> ${userData.postcode}</li>
         <li><strong>Issue:</strong> ${userData.issue}</li>
-        <li><strong>Time:</strong> ${userData.timestamp}</li>
+        <li><strong>Time:</strong> ${userData.timestamp_frontend}</li>
       </ul>
       We’ll be in touch shortly. ✅
     `,
@@ -99,7 +100,7 @@ function botResponse(userMsg) {
   const text = userMsg.toLowerCase();
 
   if (stage === 0) {
-    userData.timestamp = new Date().toLocaleString();  // Logs current date & time
+    userData.timestamp_frontend = new Date().toLocaleString();  // Logs current date & time at frontend
     if (/hi|hello|hey|good (morning|afternoon|evening)/.test(text)) {
       addMessage(randomItem(responses.greetings));
       stage = 1;

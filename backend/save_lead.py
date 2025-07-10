@@ -14,8 +14,8 @@ LOG_FILE = "/usr/local/apache2/htdocs/leads.jsonl" # attached to container
 def send_lead():
     data = request.json
 
-    # Add timestamp
-    data['timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    # Add timestamp at the backend
+    data['timestamp_backend'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     # Save to file
     with open(LOG_FILE, 'a') as f:
