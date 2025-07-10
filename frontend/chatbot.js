@@ -109,7 +109,7 @@ function botResponse(userMsg) {
     }
 
   } else if (stage === 1) {
-    sendLeadToServer(); // for test
+    //sendLeadToServer(); // for test
     const keywords = new RegExp(
       [
         'leak', 'leaking', 'drip', 'blocked', 'clogged',
@@ -174,11 +174,13 @@ function botResponse(userMsg) {
     if (/^[a-z]{1,2}\d[a-z\d]?\s?\d[a-z]{2}$/i.test(text)) {
       userData.postcode = userMsg.toUpperCase();
       stage = 6;
+      sendLeadToServer();
       addMessage(randomItem(responses.confirmation));
       setTimeout(() => addMessage(randomItem(responses.ending)), 3000);
     } else if (/no|don’t have|don’t have|do not have|none/i.test(text)) {
       userData.postcode = "Not provided";
       stage = 6;
+      sendLeadToServer();
       addMessage("That’s okay! We’ll get in touch and sort things out together. ✅");
       setTimeout(() => addMessage(randomItem(responses.confirmation)), 2000);
       setTimeout(() => addMessage(randomItem(responses.ending)), 5000);
@@ -187,7 +189,6 @@ function botResponse(userMsg) {
     }
 
   } else if (stage === 6) {
-    sendLeadToServer();
     if (/no|nothing|okay|ok|alright|thanks|thank you|see you|have a nice|bye|exit/i.test(text)) {
       addMessage(randomItem(responses.goodbye));
       stage = 7;
