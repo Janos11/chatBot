@@ -82,3 +82,31 @@ registerTab.addEventListener("click", () => {
   loginForm.classList.remove("active");
 });
 
+// Fade in animation wait for it to be in frame
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const animatedElements = document.querySelectorAll('.fade-in-10, .fade-in-15, .fade-in-20, .fade-in-25, .fade-in-r');
+
+    const observerOptions = {
+      root: null, // viewport
+      rootMargin: "0px",
+      threshold: 0.1 // 10% of element visible triggers the callback
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Add the class that triggers the animation by removing the 'opacity:0' block
+          entry.target.style.animationPlayState = 'running';
+          observer.unobserve(entry.target); // stop watching once animated
+        }
+      });
+    }, observerOptions);
+
+    animatedElements.forEach(el => {
+      // Pause animation by default
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
+  });
+</script>
