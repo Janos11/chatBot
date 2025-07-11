@@ -12,3 +12,5 @@ services:
       - ./backend:/usr/local/apache2/cgi-bin
       - ./backend/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro # read only
     restart: unless-stopped
+    environment:
+      - TZ=Europe/London
