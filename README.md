@@ -54,7 +54,7 @@ or learning modern development practices in embedded environments.
 - Managed via **Docker Compose** for ease of orchestration and service isolation.
 - Web server hosted using **Apache2** inside a container (acts as reverse proxy for the backend and serves static front-end files).
 
-[ChatBot Communication Guide](documents/chatbot_comm.md)<br/>
+[ChatBot Communication Guide](documents/ChatBot_sends_customer_information_to_the_backend.md)<br/>
 [Save customer info](documents/Save_customer_info.md)
 
 
@@ -80,12 +80,13 @@ or learning modern development practices in embedded environments.
 ---
 ## 📌 Documentation
 
-| Section                     | 	Link                                                                                                 |
-|-----------------------------|-------------------------------------------------------------------------------------------------------|
-| 🔍 In-Depth Architecture    | (coming soon)                                                                                         |
-| ⚙️ Deployment Guide	        | (coming soon)                                                                                         |
-| 🧪 Testing & Benchmarks	    | (coming soon)                                                                                         |
-| 🗂️ Useful git commands     |  [git_cheat_sheet.md](https://github.com/Janos11/Robot_Web_Controller/blob/master/git_cheat_sheet.md) |
+| Section                  | 	Link                                                                                            |
+|--------------------------|--------------------------------------------------------------------------------------------------|
+| 🔍 In-Depth Architecture |   (coming soon)                                           |
+| ⚙️ Deployment Guide	     | [LLM-Powered_Chatbot.md](documents/LLM-Powered_Chatbot.md)                                       |
+| ⚙️ Save Information	     | [ChatBot_sends_customer_information_to_the_backend.md](documents/ChatBot_sends_customer_information_to_the_backend.md)             |
+| 🧪 Testing & Benchmarks	 | (coming soon)                                                                                    |
+| 🗂️ Useful git commands  | [git_cheat_sheet.md](https://github.com/Janos11/Robot_Web_Controller/blob/master/git_cheat_sheet.md) |
 
 
 

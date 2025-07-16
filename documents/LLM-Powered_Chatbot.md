@@ -7,6 +7,30 @@ Fork the current rule-based PlumberBot repo and integrate an LLM (using Ollama) 
 
 ## Step-by-Step Plan
 
+
+### Teast the backend in terminal
+
+```bash
+curl http://localhost:11434/api/generate \
+  -d '{
+    "model": "tinyllama",
+    "prompt": "What is Docker?"
+  }'
+```
+🔁 Replace "llama3" with the actual model you've pulled (like "mistral" or "llama2"), if different.
+
+If you'd prefer a full answer all at once in your script, you can set:
+```bash
+curl http://localhost:11434/api/generate \
+  -d '{
+    "model": "tinyllama3",
+    "prompt": "What is Docker?",
+    "stream": false
+  }'
+```
+
+
+
 ### 1. Fork the Existing GitHub Repository
 - Go to the current GitHub repo of PlumberBot.
 - Click “Fork” and create your own copy under your GitHub account.
