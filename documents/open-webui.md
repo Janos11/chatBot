@@ -1,7 +1,7 @@
 # Open WebUI + Ollama
 
 This containerized setup provides a web interface to interact with locally hosted Ollama models (like TinyLlama, Phi, Mistral, etc.).
-[https://github.com/open-webui/open-webui](https://github.com/open-webui/open-webui)
+Original repo: [https://github.com/open-webui/open-webui](https://github.com/open-webui/open-webui)
 
 ## 🔧 Setup
 
@@ -42,15 +42,3 @@ if and only if ollama is:
 ### 📁 Volumes
 
 Data is persisted in a named Docker volume: open-webui-data
-
-curl http://ollama:8080/api/generate \
-  -d '{    
-    "model": "tinyllama",              
-    "prompt": "test"
-  }'
-
-curl http://localhost:8080/api/generate \
-  -d '{    
-    "model": "tinyllama",              
-    "prompt": "test"
-  }'
