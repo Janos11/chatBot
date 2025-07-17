@@ -17,31 +17,36 @@ function addMessage(msg, sender = "bot") {
 
 // Send message to Ollama backend and handle response
 async function talkToBackend(userText) {
+  // Construct prompt from message history
+  const prompt = messageHistory
+    .map(msg => `${msg.role === "user" ? "User" : "Assistant"}: ${msg.content}`)
+    .join("\n") + `\nUser: ${userText}`;
+
   const requestBody = {
-    model: "tinyllama", // or any model you use
-    stream: false,
-    messages: [
-      ...messageHistory,
-      { role: "user", content: userText }
-    ]
+    model: "tinyllama",
+    prompt: prompt,
+    stream: false
   };
 
   try {
-    const res = await fetch("/api/generate", {
+    const res = await fetch("http://192.168.1.189:85/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
     });
 
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+
     const data = await res.json();
-    const botReply = data.message?.content || "Sorry, something went wrong.";
+    const botReply = data.response || "Sorry, something went wrong.";
 
     // Update conversation history
     messageHistory.push({ role: "user", content: userText });
     messageHistory.push({ role: "assistant", content: botReply });
 
     addMessage(botReply, "bot");
-
   } catch (err) {
     console.error("Backend error:", err);
     addMessage("⚠️ Sorry, I couldn’t reach the server. Please try again later.", "bot");
