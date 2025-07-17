@@ -17,4 +17,19 @@ cd open-webui
 docker compose up -d
 ```
 
+Then open your browser:
+👉 http://localhost:3000 or http://192.168.1.189:3000
+
+### 3. Configuration
+
+[docker-compose.yml file](../docker-compose.yml)
+
+✅ This setup assumes your Ollama container is running and accessible via host.docker.internal.
+If you're accessing Ollama via the Pi’s LAN IP (e.g. 192.168.1.189), just replace the OLLAMA_BASE_URL.
+
+
+
+### 📁 Volumes
+
+Data is persisted in a named Docker volume: open-webui-data
 
