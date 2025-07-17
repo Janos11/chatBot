@@ -7,6 +7,15 @@ Great for:
 - Saving customer data through simple interactions
 - Learning and experimenting with full-stack deployment in embedded environments
 
+<div style="text-align: center; margin: 20px 0;">
+  <img 
+    src="screenshots/Screenshot_2025-07-17_at_21.45.30.png" 
+    width="640" 
+    alt="Screenshot from July 17, 2025"
+    style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px;"
+  >
+</div>
+
 ---
 
 ## 🧪 Current Functionality
