@@ -1,16 +1,16 @@
 services:
-  web_server:
-    build: .
-    container_name: chatBot
-    privileged: true    # Full hardware access
-    user: root          # Force container to run as root
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
     ports:
-      - "85:80"          # Apache for chatbot
-      - "5001:5001"      # Flask backend API (internally 5000)
+      - "3000:8080"
     volumes:
-      - ./frontend:/usr/local/apache2/htdocs
-      - ./backend:/usr/local/apache2/cgi-bin
-      - ./backend/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro # read only
-    restart: unless-stopped
+      - open-webui-data:/app/backend/data
     environment:
-      - TZ=Europe/London
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+volumes:
+  open-webui-data:
