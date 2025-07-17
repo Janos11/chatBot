@@ -44,3 +44,71 @@ curl http://localhost:11434/api/generate \
 
 ## Outcome
 You’ll have a smarter PlumberBot that understands user queries using LLMs and still sends structured data to your backend for processing.
+
+## Architecture
+
+
+```mermaid
+flowchart TD
+  subgraph Users
+    Web[Web Users]
+    Devs[Developers]
+    Ops[Operations]
+  end
+
+  subgraph "Kubernetes Cluster"
+    
+    subgraph "Namespace: bionic-gpt"
+      Nginx[Nginx]
+      OAuth[oauth2-proxy]
+      Server["Bionic Server<br><hr>• Limits Management<br>• Model Management<br>• MCP Server Management"]
+      Chunking[Chunking Engine]
+      ObjectStore[Object Storage]
+      DB[(PostgreSQL with Column Encryption and Vector DB)]
+      Grafana[Grafana]
+    end
+
+    subgraph "Namespace: model-garden"
+      MG["
+• LLaMA 3
+• Embeddings Model
+• External Model API
+"]
+    end
+
+    subgraph "Namespace: mcp-servers"
+      MCP["
+• RAG Engine
+• Time Service
+"]
+    end
+
+  end
+
+  Web --> Nginx
+  Devs --> Nginx
+  Ops --> Grafana
+
+  Nginx --> OAuth
+  OAuth --> IdP[External Identity Provider]
+  OAuth --> Server
+
+  Server --> DB
+  Grafana --> DB
+
+  Server --> MG
+  Server --> MCP
+  Server --> Chunking
+  Server --> ObjectStore
+
+  Server --> Secrets[HSM via K8s Secrets]
+
+  %% Notes
+  Note1[/"MinIO or S3-compatible storage"/]
+  Note2[/"Chunking engine handles document preprocessing"/]
+  Note3[/"Vibe Coding"/]
+
+  ObjectStore -.-> Note1
+  Chunking -.-> Note2
+  Devs -.-> Note3
+```
