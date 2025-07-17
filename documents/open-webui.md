@@ -1,6 +1,7 @@
 # Open WebUI + Ollama
 
 This containerized setup provides a web interface to interact with locally hosted Ollama models (like TinyLlama, Phi, Mistral, etc.).
+[https://github.com/open-webui/open-webui](https://github.com/open-webui/open-webui)
 
 ## 🔧 Setup
 
@@ -27,9 +28,29 @@ Then open your browser:
 ✅ This setup assumes your Ollama container is running and accessible via host.docker.internal.
 If you're accessing Ollama via the Pi’s LAN IP (e.g. 192.168.1.189), just replace the OLLAMA_BASE_URL.
 
+Use:
 
+```yaml
+environment:
+  - OLLAMA_BASE_URL=http://ollama:11434
+```
+if and only if ollama is:
+
+- The container name or service name of Ollama.
+- Reachable within the same Docker network.
 
 ### 📁 Volumes
 
 Data is persisted in a named Docker volume: open-webui-data
 
+curl http://ollama:8080/api/generate \
+  -d '{    
+    "model": "tinyllama",              
+    "prompt": "test"
+  }'
+
+curl http://localhost:8080/api/generate \
+  -d '{    
+    "model": "tinyllama",              
+    "prompt": "test"
+  }'
