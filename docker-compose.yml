@@ -1,4 +1,19 @@
 services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    restart: unless-stopped
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    deploy:
+      resources:
+        limits:
+          memory: 6G  # Adjust based on Pi's RAM (4GB or 8GB)
+
   open-webui:
     image: ghcr.io/open-webui/open-webui:main
     container_name: open-webui
@@ -13,4 +28,5 @@ services:
     restart: unless-stopped
 
 volumes:
+  ollama-data:
   open-webui-data:
