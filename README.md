@@ -1,63 +1,59 @@
 # 🤖 ChatBot
 
-A lightweight, containerized full-stack chatbot web application — built from scratch, deployed on a Raspberry Pi 
-using Docker and Apache2. This project includes both front-end and back-end 
-components and is designed to evolve from a rule-based chatbot to a more intelligent AI-driven assistant. 
-Ideal for personal projects, prototyping conversational interfaces, 
-or learning modern development practices in embedded environments.
+A lightweight, containerized full-stack chatbot web application — built from scratch, deployed on a Raspberry Pi using Docker and Apache2. This project includes both front-end and back-end components and is designed to evolve from a **rule-based chatbot** to a more intelligent **LLM-powered** assistant.
+
+Great for:
+- Testing the front-end interface with a working rule-based chatbot
+- Saving customer data through simple interactions
+- Learning and experimenting with full-stack deployment in embedded environments
 
 ---
 
-## 📁 Project Structure
+## 🧪 Current Functionality
 
-```
-~/docker/chatbot_interface/
-                ├── backend/
-                │   ├── app.py              # Flask or FastAPI backend
-                │   ├── requirements.txt    # Python dependencies
-                │   └── chatbot_logic.py    # Core chatbot logic
-                ├── frontend/
-                │   ├── index.html          # Basic UI
-                │   ├── style.css           # Styling
-                │   └── script.js           # JS to send/receive messages
-                ├── documents/
-                ├── screenshots/
-                ├── docker-compose.yml
-                ├── Dockerfile              # Builds both frontend/backend
-                └── README.md
-```
+- ✅ A user interface built in **HTML**, **CSS**, and **JavaScript**
+- ✅ A **rule-based** chatbot for demonstration (not very intelligent)
+- ✅ Can **save customer details** to the backend using:
+  - [📄 ChatBot Communication Guide](documents/chatbot_comm.md)
+  - [🧾 Save Customer Info](documents/Save_customer_info.md)
+- ⚠️ *Will be further developed with LLM-based responses in another branch (`main`)*
+- 📦 This branch (`rule-based-chat`) serves as a working **backup**
+
+---
 
 ---
 
 ## 🌐 Frontend
 
-- Built with standard **HTML**, **CSS**, and **JavaScript**.
-- A simple chat interface located at `frontend/index.html`.
-- CSS (`style.css`) handles layout and visual styling.
-- JavaScript (`script.js`) implements a **basic rule-based chatbot** for demonstration purposes. This bot is fully functional without a backend to showcase UI interactions and client-side logic.
-- In the future, the front-end will connect via HTTP to the Flask API in `backend/app.py` for real-time interaction with a more sophisticated chatbot.
+| Feature | Description |
+|--------|-------------|
+| UI | Clean and simple chat interface (`index.html`) |
+| Styling | CSS for layout, responsiveness, and theme |
+| Interaction | JavaScript sends messages, handles responses |
+| Logic | Built-in rule-based responses for testing |
+| Dev Plan | Will later connect to Python backend via HTTP |
 
 ---
 
 ## 🧠 Backend
 
-- Powered by **Flask** (or **FastAPI**, if preferred) in Python.
-- `app.py` handles API routes and communication with front-end via AJAX.
-- `chatbot_logic.py` is a modular Python script that will evolve to include ML/NLP logic (e.g., via spaCy, NLTK, or OpenAI APIs).
-- Containerized with Docker, using a unified `Dockerfile` to package the backend with Apache for serving static content and reverse proxying API calls.
+| Feature | Description                                                 |
+|--------|-------------------------------------------------------------|
+| Framework | Built in **Flask** (FastAPI compatible)                     |
+| API | Accepts POST requests from frontend                         |
+| Logic | Simple rule-matching from [chatbot.js](frontend/chatbot.js) |
+| Future | Can be extended with NLP / OpenAI / spaCy etc.              |
+| Docker | .yaml for serving both backend and frontend                 |
 
 ---
 
 ## 🚀 Deployment
 
-- Deployed and tested on a **Raspberry Pi 4 Model B** running Raspberry Pi OS.
-- Managed via **Docker Compose** for ease of orchestration and service isolation.
-- Web server hosted using **Apache2** inside a container (acts as reverse proxy for the backend and serves static front-end files).
-
-[ChatBot Communication Guide](documents/chatbot_comm.md)<br/>
-[Save customer info](documents/Save_customer_info.md)
-
-
+| Environment | Notes |
+|-------------|-------|
+| ✅ Raspberry Pi 4 | Runs with Docker and Apache2 |
+| ✅ Docker Compose | For service orchestration |
+| ✅ Apache2 | Serves front-end, proxies API requests |
 
 ---
 
@@ -73,42 +69,40 @@ or learning modern development practices in embedded environments.
 | HTML/CSS/JS    | Standard front-end stack | - |
 | Git & GitHub   | Version control and collaboration | [github.com](https://github.com) |
 
-
-
-
-
 ---
+
 ## 📌 Documentation
 
-| Section                     | 	Link                                                                                                 |
-|-----------------------------|-------------------------------------------------------------------------------------------------------|
-| 🔍 In-Depth Architecture    | (coming soon)                                                                                         |
-| ⚙️ Deployment Guide	        | (coming soon)                                                                                         |
-| 🧪 Testing & Benchmarks	    | (coming soon)                                                                                         |
-| 🗂️ Useful git commands     |  [git_cheat_sheet.md](https://github.com/Janos11/Robot_Web_Controller/blob/master/git_cheat_sheet.md) |
-
-
+| Section                   | Link |
+|---------------------------|------|
+| 📜 Chat Communication API | [chatbot_comm.md](documents/chatbot_comm.md) |
+| 📥 Save Customer Info     | [Save_customer_info.md](documents/Save_customer_info.md) |
+| 🔧 Git Cheat Sheet        | [git_cheat_sheet.md](https://github.com/Janos11/Robot_Web_Controller/blob/master/git_cheat_sheet.md) |
+| ⚙️ Deployment Guide       | _(coming soon)_ |
+| 🧪 Testing & Benchmarks   | _(coming soon)_ |
+| 🔍 In-Depth Architecture  | _(coming soon)_ |
 
 ---
 
 ## 💻 Is This Full Stack?
 
-**Yes.** This project qualifies as a full-stack application:
+**Yes.** This project demonstrates a full-stack deployment:
 
-- **Frontend**: UI, client-side JS logic.
-- **Backend**: Python API and chatbot logic.
-- **Deployment**: Dockerized for portability and system independence.
-- **Hosting**: Deployed on a real embedded Linux system with a production-grade web server.
+| Layer      | Tool/Tech |
+|------------|-----------|
+| Frontend   | HTML, CSS, JS |
+| Backend    | Python Flask API |
+| Data Saving| JSON files or future DB integration |
+| Deployment | Docker & Apache2 |
+| Hosting    | Embedded system (Raspberry Pi) |
 
-Great for showcasing:
-- Full-stack capability
-- Embedded development familiarity
-- Docker & DevOps practices
-
-
-
+Perfect for:
+- Showcasing full-stack engineering
+- Building interactive UIs on embedded devices
+- Practicing DevOps (Docker, Git, Apache, Pi)
 
 ---
+
 ## 🤝 Contributors
 
 <table style="font-family: Arial, sans-serif; line-height: 1.6;">
