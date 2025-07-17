@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Ollama Streaming Example</title>
-
+  <title>Ollama Streaming Test</title>
   <style>
     #output {
       white-space: pre-wrap;
@@ -21,60 +20,68 @@
       margin-bottom: 1em;
       cursor: pointer;
     }
+    .error {
+      color: red;
+    }
   </style>
 </head>
-
-
-
 <body>
-
   <button id="generateBtn">Generate Response</button>
   <div id="output"></div>
 
   <script>
     async function generate() {
       const outputDiv = document.getElementById('output');
-      outputDiv.textContent = ''; // clear previous output
+      outputDiv.textContent = ''; // Clear previous output
 
-      const response = await fetch('http://192.168.1.189:85/api/generate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'tinyllama',
-          prompt: 'test',
-        }),
-      });
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder('utf-8');
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value);
-
-        // The response is a stream of JSON objects per line
-        chunk.split('\n').forEach(line => {
-          if (line.trim()) {
-            try {
-              const obj = JSON.parse(line);
-              if (obj.response) {
-                outputDiv.textContent += obj.response;
-                // Optional: auto-scroll to bottom
-                outputDiv.scrollTop = outputDiv.scrollHeight;
-              }
-            } catch (e) {
-              console.error('JSON parse error:', e);
-            }
-          }
+      try {
+        const response = await fetch('http://192.168.1.189:85/api/generate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            model: 'tinyllama',
+            prompt: 'test',
+            stream: true // Explicitly enable streaming
+          }),
         });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value);
+
+          chunk.split('\n').forEach(line => {
+            if (line.trim()) {
+              try {
+                const obj = JSON.parse(line);
+                if (obj.response) {
+                  outputDiv.textContent += obj.response;
+                  outputDiv.scrollTop = outputDiv.scrollHeight;
+                }
+              } catch (e) {
+                console.error('JSON parse error:', e);
+                outputDiv.textContent += `\n[Error: Invalid response format]`;
+              }
+            }
+          });
+        }
+      } catch (err) {
+        console.error('Fetch error:', err);
+        outputDiv.textContent = `Error: ${err.message}`;
+        outputDiv.classList.add('error');
       }
     }
 
     document.getElementById('generateBtn').addEventListener('click', generate);
   </script>
-
 </body>
 </html>
