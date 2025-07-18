@@ -4,6 +4,11 @@ const input = document.getElementById("chat-input");
 const chatContainer = document.getElementById("plumber-chat");
 const chatLauncher = document.getElementById("chat-launcher");
 
+// Determine the Ollama API host dynamically
+const ollamaHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:11434'
+  : `http://${window.location.hostname}:11434`;
+
 // Add message to chat
 function addMessage(msg, sender = "bot") {
   const div = document.createElement("div");
@@ -16,7 +21,8 @@ function addMessage(msg, sender = "bot") {
 // Send message to Ollama API and handle streaming response
 async function sendToOllama(message) {
   try {
-    const response = await fetch('http://192.168.1.189:11434/api/generate', {
+    //const response = await fetch('http://192.168.1.189:11434/api/generate', {
+    const response = await fetch(`${ollamaHost}/api/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
