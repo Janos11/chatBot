@@ -1,5 +1,8 @@
 # 🤖 ChatBot
 
+> ⚠️ **This is a minimal working backup version.** Active development continues on the [main](https://github.com/Janos11/chatBot/tree/main) branch.
+
+
 A lightweight, containerized full-stack chatbot web application — built from scratch, deployed on a Raspberry Pi using Docker and Apache2. This project includes both front-end and back-end components and is designed to evolve from a **rule-based chatbot** to a more intelligent **LLM-powered** assistant.
 
 Great for:
