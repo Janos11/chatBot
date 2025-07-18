@@ -14,17 +14,3 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Europe/London
-    depends_on:
-      - ollama   # Ensure ollama is ready before starting
-
-  ollama:
-    image: ollama/ollama
-    container_name: ollama
-    ports:
-      - "11434:11434"     # Ollama API
-    volumes:
-      - ollama_models:/root/.ollama    # Persist models
-    restart: unless-stopped
-
-volumes:
-  ollama_models:
