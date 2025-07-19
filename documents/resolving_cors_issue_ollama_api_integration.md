@@ -76,7 +76,8 @@ Modify the Apache configuration (`httpd.conf`) to include a reverse proxy setup 
   LoadModule proxy_http_module modules/mod_proxy_http.so
   ```
   Add the reverse proxy configuration at the end of `httpd.conf`:
-  ```apache
+- 
+```apache
   <VirtualHost *:80>
       ServerName localhost
       DocumentRoot /usr/local/apache2/htdocs
@@ -92,7 +93,26 @@ Modify the Apache configuration (`httpd.conf`) to include a reverse proxy setup 
           Header set Access-Control-Allow-Headers "Content-Type"
       </Location>
   </VirtualHost>
-  ```
+  
+  
+  <Location /api/ollama>
+    ProxyPass http://192.168.1.189:11434/api/generate
+    ProxyPassReverse http://192.168.1.189:11434/api/generate
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
+    <If "%{REQUEST_METHOD} = 'OPTIONS'">
+        SetEnvIf Request_Method OPTIONS return_204
+        Header set Content-Length 0
+        Header set Content-Type text/plain
+        RewriteEngine On
+        RewriteCond %{REQUEST_METHOD} =OPTIONS
+        RewriteRule .* - [R=204,L]
+    </If>
+  </Location>
+
+```
+  
   - `ProxyPass` forwards requests from `http://192.168.1.189:85/api/ollama` to `http://ollama:11434/api/generate` within the Docker network.
   - `ProxyPassReverse` ensures response headers are rewritten correctly.
   - The `Header set` directives add CORS headers as a fallback, though they’re typically unnecessary since the proxy makes requests same-origin.
