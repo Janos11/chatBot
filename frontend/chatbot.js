@@ -98,6 +98,7 @@ form.addEventListener("submit", async function (e) {
 
 // State Variable
 let stage = 0;
+const goTopBtn = document.querySelector('.go-top');
 
 // Chat show/hide toggle
 function toggleChat() {
@@ -109,12 +110,14 @@ function toggleChat() {
       setTimeout(() => {
         chatContainer.style.display = 'none';
         chatLauncher.classList.remove('hidden');
+        goTopBtn.classList.add('show'); // show go to top button
       }, 300);
     } else {
       // Show chat
       chatContainer.style.display = 'flex';
       setTimeout(() => {
         chatContainer.classList.add('visible');
+        goTopBtn.classList.remove('show'); // hide go to top button
       }, 10);
       chatLauncher.classList.add('hidden');
 
