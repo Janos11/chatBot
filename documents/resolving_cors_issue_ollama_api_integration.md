@@ -26,6 +26,7 @@ This document details the CORS (Cross-Origin Resource Sharing) issue encountered
   [Error] Failed to load resource: Preflight response is not successful. Status code: 403
   [Error] Error communicating with Ollama: – TypeError: Load failed
   ```
+---
 
 ## Understanding CORS
 
@@ -46,7 +47,8 @@ This document details the CORS (Cross-Origin Resource Sharing) issue encountered
 - Ollama’s server does not include these headers, resulting in a 403 Forbidden response for the preflight request.
 
 ### Why It Happens
-- The JavaScript (`chat.js`) runs on `http://192.168.1.189:85` and tries to fetch from `http://192.168.1.189:11434`.
+
+- The JavaScript [chatbot.js](../frontend/chatbot.js) runs on `http://192.168.1.189:85` and tries to fetch from `http://192.168.1.189:11434`.
 - The browser detects the different ports, triggers a preflight request, and Ollama rejects it because it lacks CORS configuration.
 - This only occurs in browsers; tools like `curl` bypass CORS, which is why your curl commands worked.
 
@@ -56,29 +58,38 @@ Imagine the browser as a security guard:
 - The guard sends a permission slip (`OPTIONS` request) to the VIP’s manager (Ollama server).
 - If the manager doesn’t approve (no CORS headers or 403), the guard blocks you, and you get the error.
 
+
+
+
+
+---
+
 ## Solution: Apache Reverse Proxy
+Apache reverse proxy was successfully configured to forward requests to the Ollama API. 
+A curl test confirmed that the proxy setup works correctly. However, browser requests were initially blocked 
+with a 403 or 405 response because browsers automatically include an Origin header, 
+which the backend API rejected. This issue was resolved by modifying the Apache reverse proxy configuration to 
+remove the Origin header from incoming requests.
 
-### Why Use a Reverse Proxy?
-- Directly configuring Ollama to support CORS requires modifying its source code, which is complex and may need container rebuilding.
-- The existing Flask backend on port `5001` is reserved for customer data processing, so we avoid using it.
-- An Apache reverse proxy routes requests from `http://192.168.1.189:85/api/ollama` to `http://ollama:11434/api/generate` within the Docker network.
-- Since the proxy is on the same origin as the web server (`http://192.168.1.189:85`), the browser sees no cross-origin request, bypassing CORS.
+### Why This Works
+- Makes API requests appear same-origin by routing through the web server
+- Avoids modifying Ollama's CORS configuration
+- Maintains security while solving the cross-origin problem
 
-### Steps to Implement
+### Implementation Steps
 
-#### 1. Update Apache Configuration
-Modify the Apache configuration (`httpd.conf`) to include a reverse proxy setup for the Ollama API.
+**Modify Apache Configuration** Add Reverse Proxy Configuration:
 
-- **Edit `httpd.conf`**:
-  Ensure the following modules are enabled in `/usr/local/apache2/conf/httpd.conf`:
-  ```apache
-  LoadModule proxy_module modules/mod_proxy.so
-  LoadModule proxy_http_module modules/mod_proxy_http.so
-  ```
-  Add the reverse proxy configuration at the end of `httpd.conf`:
-- 
+Append the following to [httpd.conf](../backend/httpd.conf):
+
 ```apache
-  <VirtualHost *:80>
+        # Remove the Origin header from HTTP requests
+        RequestHeader unset Origin
+```
+
+```apache
+# Reverse proxy for Ollama API with proper CORS
+<VirtualHost *:80>
     ServerName localhost
     DocumentRoot /usr/local/apache2/htdocs
 
@@ -88,92 +99,38 @@ Modify the Apache configuration (`httpd.conf`) to include a reverse proxy setup 
     LoadModule headers_module modules/mod_headers.so
     LoadModule rewrite_module modules/mod_rewrite.so
 
-    # Reverse proxy for Ollama API
+    # Reverse proxy to Ollama's API
     <Location /api/ollama>
-        ProxyPass http://192.168.1.189:11434/api/generate
-        ProxyPassReverse http://192.168.1.189:11434/api/generate
-        Header set Access-Control-Allow-Origin "*"
-        Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
-        Header set Access-Control-Allow-Headers "Content-Type"
-        <If "%{REQUEST_METHOD} = 'OPTIONS'">
-            SetEnvIf Request_Method OPTIONS return_204
-            Header set Content-Length 0
-            Header set Content-Type text/plain
+        Require all granted
+
+        # Remove the Origin header from HTTP requests
+        RequestHeader unset Origin
+
+
+        # Proxy to the Ollama container (adjust IP if needed)
+        ProxyPass http://192.168.1.189:11434/api/chat
+        ProxyPassReverse http://192.168.1.189:11434/api/chat
+
+        # CORS headers
+        #Header always set Access-Control-Allow-Origin "https://janosrostas.co.uk"
+        #Header always set Access-Control-Allow-Origin "http://192.168.1.130"
+        #Header always set Access-Control-Allow-Origin "http://192.168.1.189:85"
+        Header always set Access-Control-Allow-Origin "*"
+        Header always set Vary "Origin"
+        Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+        Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
+        Header always set Access-Control-Max-Age "86400"
+
+        # Handle preflight OPTIONS requests
+        <If "%{REQUEST_METHOD} == 'OPTIONS'">
+            Header always set Content-Length "0"
+            Header always set Content-Type "text/plain; charset=UTF-8"
             RewriteEngine On
-            RewriteCond %{REQUEST_METHOD} =OPTIONS
-            RewriteRule .* - [R=204,L]
+            RewriteRule ^ - [R=204,L]
         </If>
     </Location>
-  </VirtualHost>
-
+</VirtualHost>
 ```
-  
-  - `ProxyPass` forwards requests from `http://192.168.1.189:85/api/ollama` to `http://ollama:11434/api/generate` within the Docker network.
-  - `ProxyPassReverse` ensures response headers are rewritten correctly.
-  - The `Header set` directives add CORS headers as a fallback, though they’re typically unnecessary since the proxy makes requests same-origin.
-
-- **Update Docker Volume**:
-  Ensure `./backend/httpd.conf` in your project directory is updated with the above configuration and mounted to `/usr/local/apache2/conf/httpd.conf` as per your Docker Compose setup.
-
-- **Restart Apache**:
-  ```bash
-  docker restart chatBot
-  ```
-
-#### 2. Update JavaScript
-The provided `chat.js` uses the relative path `/api/ollama` to send requests to the Apache proxy endpoint, ensuring same-origin requests. No changes are needed beyond the provided script.
-
-#### 3. Test the Setup
-- **Local Access**:
-  - On the Raspberry Pi, access `http://localhost:85` and test the chat.
-  - Verify requests to `http://localhost:85/api/ollama` reach Ollama via the proxy.
-- **Remote Access**:
-  - On your MacBook, access `http://192.168.1.189:85` and test the chat.
-  - Check the browser console (DevTools) for errors.
-- **Verify Proxy**:
-  - Run `docker logs chatBot` to check Apache logs for proxy activity.
-  - Test the endpoint directly:
-    ```bash
-    curl -X POST http://192.168.1.189:85/api/ollama -H "Content-Type: application/json" -d '{"model":"tinyllama","prompt":"how are you?"}'
-    ```
-
-#### 4. Troubleshooting
-- **Proxy Not Working**:
-  - Ensure `mod_proxy` and `mod_proxy_http` are enabled in Apache.
-  - Verify the Docker network allows the `web_server` container to resolve `ollama:11434`:
-    ```bash
-    docker exec -it chatBot curl http://ollama:11434/api/generate
-    ```
-  - Check Apache error logs:
-    ```bash
-    docker exec chatBot cat /usr/local/apache2/logs/error_log
-    ```
-- **Ollama Not Responding**:
-  - Confirm the Ollama container is running:
-    ```bash
-    docker ps
-    ```
-  - Test Ollama directly:
-    ```bash
-    curl http://192.168.1.189:11434/api/generate -X POST -H "Content-Type: application/json" -d '{"model":"tinyllama","prompt":"test"}'
-    ```
-- **Persistent CORS Errors**:
-  - If CORS errors appear, ensure the proxy is correctly routing requests. The relative path (`/api/ollama`) should prevent CORS issues, but the `Header set` directives provide a fallback.
-
-## Why This Works
-- The reverse proxy makes the Ollama API appear as part of the same origin (`http://192.168.1.189:85/api/ollama`), so the browser doesn’t trigger a preflight request.
-- The dynamic host logic in `chat.js` is replaced with a relative path, simplifying the setup.
-- The existing Flask backend on port `5001` remains untouched for future customer info processing.
-- No modifications to Ollama’s source code are needed, avoiding complex container rebuilds.
-
-## Future Considerations
-- **Security**: Restrict the proxy endpoint (`/api/ollama`) to specific IP ranges or add authentication if exposed publicly.
-- **Scalability**: If you add more API endpoints, extend the `ProxyPass` rules in `httpd.conf`.
-- **Flask Integration**: If you later want to use the Flask backend for additional features, you can add routes to handle both customer info and Ollama API requests.
-
-## Conclusion
-Using an Apache reverse proxy is a reliable way to bypass CORS without altering Ollama or repurposing the Flask backend. This solution ensures the chat interface works seamlessly for both local and remote clients, maintaining the existing Docker setup.
-
 
 ---
 ## 🤝 Contributors
