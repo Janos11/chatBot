@@ -175,7 +175,6 @@ The provided `chat.js` uses the relative path `/api/ollama` to send requests to 
 Using an Apache reverse proxy is a reliable way to bypass CORS without altering Ollama or repurposing the Flask backend. This solution ensures the chat interface works seamlessly for both local and remote clients, maintaining the existing Docker setup.
 
 
-
 ---
 ## 🤝 Contributors
 
