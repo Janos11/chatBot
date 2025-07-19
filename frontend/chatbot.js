@@ -23,7 +23,8 @@ function addMessage(msg, sender = "bot") {
 async function sendToOllama(message) {
   try {
     //const response = await fetch('http://192.168.1.189:11434/api/generate', {
-    const response = await fetch(`${ollamaHost}/api/generate`, {
+    //const response = await fetch(`${ollamaHost}/api/generate`, {
+    const response = await fetch(`/api/ollama`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
