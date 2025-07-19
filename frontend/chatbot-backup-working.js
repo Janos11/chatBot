@@ -8,7 +8,7 @@ const chatLauncher = document.getElementById("chat-launcher");
 const ollamaHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:11434'
   : `http://${window.location.hostname}:11434`;
-console.log('ollamaHost:', ollamaHost);
+  console.log('ollamaHost:',ollamaHost);
 
 // Add message to chat
 function addMessage(msg, sender = "bot") {
@@ -17,16 +17,12 @@ function addMessage(msg, sender = "bot") {
   div.innerHTML = msg;
   chatbox.appendChild(div);
   chatbox.scrollTop = chatbox.scrollHeight;
-  return div; // Return the div so we can modify it later
 }
 
-// Function to send message to Ollama API and handle streaming response
-async function sendToOllama(message) {
-  try {
-    // Create a bot message element that we'll update
-    const botMessage = addMessage("...", "bot");
-    let fullResponse = '';
 
+// Function to send message to Ollama API and handle streaming response
+async function sendToOllama(message, onChunkReceived) {
+  try {
     const response = await fetch('/api/ollama', {
       method: 'POST',
       headers: {
@@ -45,6 +41,7 @@ async function sendToOllama(message) {
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
+    let fullResponse = '';
 
     while (true) {
       const { done, value } = await reader.read();
@@ -58,9 +55,10 @@ async function sendToOllama(message) {
           const data = JSON.parse(line);
           if (data.message?.content) {
             fullResponse += data.message.content;
-            // Update the bot message in real-time
-            botMessage.innerHTML = fullResponse;
-            chatbox.scrollTop = chatbox.scrollHeight;
+            // Call the callback with the new content
+            if (onChunkReceived) {
+              onChunkReceived(fullResponse);
+            }
           }
         } catch (e) {
           console.error('Error parsing JSON chunk:', e);
@@ -75,6 +73,7 @@ async function sendToOllama(message) {
   }
 }
 
+
 // Handle form submission
 form.addEventListener("submit", async function (e) {
   e.preventDefault();
@@ -85,10 +84,18 @@ form.addEventListener("submit", async function (e) {
   addMessage(userText, "user");
   input.value = "";
 
-  // Get response from Ollama (will stream automatically)
-  await sendToOllama(userText);
-});
+  // Show loading indicator
+  addMessage("...", "bot");
 
+  // Get response from Ollama
+  const botReply = await sendToOllama(userText);
+
+  // Remove loading indicator
+  chatbox.lastChild.remove();
+
+  // Display bot response
+  addMessage(botReply, "bot");
+});
 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 
