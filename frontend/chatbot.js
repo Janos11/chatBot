@@ -31,7 +31,7 @@ async function sendToOllama(message) {
       },
       body: JSON.stringify({
         model: 'tinyllama',
-        prompt: message,
+        "messages": [{"role": "user", "content": message}]
         stream: true
       }),
     });
