@@ -6,10 +6,10 @@
 This document details the CORS (Cross-Origin Resource Sharing) issue encountered when integrating a JavaScript-based chat interface with an Ollama API running on a Raspberry Pi, and provides a step-by-step solution using an Apache reverse proxy to bypass CORS.
 
 <div style="display: flex; justify-content: space-between;">
-    <img src="screenshots/Screenshot_2025-07-19_at_09.33.29.png" 
+    <img src="../screenshots/Screenshot_2025-07-19_at_09.33.29.png" 
          alt="Screenshot - chatBot working, OK" 
          style="width: 48%; height: auto;"/>
-    <img src="screenshots/Screenshot_2025-07-19_at_09.42.37.png" 
+    <img src="../screenshots/Screenshot_2025-07-19_at_09.42.37.png" 
          alt="Screenshot - chatBot not working, CORS issue" 
          style="width: 48%; height: auto;"/>
 </div>
