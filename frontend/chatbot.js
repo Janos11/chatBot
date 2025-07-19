@@ -122,6 +122,7 @@ function toggleChat() {
       if (stage === 0) {
         setTimeout(() => {
           addMessage("👋 Hello! I'm PlumberBot. Say hi to get started!");
+          stage += 1;
         }, 1000);
       }
     }
