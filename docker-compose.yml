@@ -14,7 +14,8 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Europe/London
-      - OLLAMA_ORIGINS=* # Resolve browser CORS issue
+      - OLLAMA_ORIGINS=https://janosrostas.co.uk,http://localhost,http://127.0.0.1,http://192.168.1.130 # Resolve browser CORS issue
+
     depends_on:
       - ollama   # Ensure ollama is ready before starting
 
