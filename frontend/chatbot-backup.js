@@ -19,9 +19,22 @@ function addMessage(msg, sender = "bot") {
   chatbox.scrollTop = chatbox.scrollHeight;
 }
 
-// Function to send message to Ollama API and handle streaming response
-async function sendToOllama(message, onChunkReceived) {
+// Send message to Ollama API and handle streaming response
+async function sendToOllama(message) {
   try {
+    //const response = await fetch('http://192.168.1.189:11434/api/generate', {
+    //const response = await fetch(`${ollamaHost}/api/generate`, {
+    //const response = await fetch(`/api/ollama`, {
+    //  method: 'POST',
+    //  headers: {
+    //    'Content-Type': 'application/json',
+    //  },
+    //  body: JSON.stringify({
+    //    model: 'tinyllama',
+    //    prompt: message,
+    //    stream: true
+    //  }),
+    //});
     const response = await fetch('/api/ollama', {
       method: 'POST',
       headers: {
@@ -52,12 +65,8 @@ async function sendToOllama(message, onChunkReceived) {
       for (const line of lines) {
         try {
           const data = JSON.parse(line);
-          if (data.message?.content) {
-            fullResponse += data.message.content;
-            // Call the callback with the new content
-            if (onChunkReceived) {
-              onChunkReceived(fullResponse);
-            }
+          if (data.response) {
+            fullResponse += data.response;
           }
         } catch (e) {
           console.error('Error parsing JSON chunk:', e);
@@ -65,13 +74,12 @@ async function sendToOllama(message, onChunkReceived) {
       }
     }
 
-    return fullResponse;
+    return fullResponse || "Sorry, I couldn't process that. Please try again.";
   } catch (error) {
     console.error('Error communicating with Ollama:', error);
     return "Oops, something went wrong. Please try again later.";
   }
 }
-
 
 // Handle form submission
 form.addEventListener("submit", async function (e) {
