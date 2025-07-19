@@ -37,7 +37,7 @@ async function sendToOllama(message) {
         messages: [{ role: 'user', content: message }],
         stream: true,
         options: {
-          num_predict: 32, // Limits response to ~32 tokens (about 1-2 lines)
+          num_predict: 42, // Limits response to ~42 tokens
           temperature: 0.7, // Controls randomness (0-1, lower is more deterministic)
         }
       }),
