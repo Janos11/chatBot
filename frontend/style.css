@@ -602,6 +602,7 @@ box-shadow: 0 5px 12px rgb(10 147 150 / 0.6);
 transition: background 0.3s ease;
 text-decoration: none;
 display: inline-block;
+margin: 10px 10px 10px 10px; /* adds space between buttons */
 }
 
 .btn-primary:hover {
