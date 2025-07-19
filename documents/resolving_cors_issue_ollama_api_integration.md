@@ -174,3 +174,42 @@ The provided `chat.js` uses the relative path `/api/ollama` to send requests to 
 ## Conclusion
 Using an Apache reverse proxy is a reliable way to bypass CORS without altering Ollama or repurposing the Flask backend. This solution ensures the chat interface works seamlessly for both local and remote clients, maintaining the existing Docker setup.
 
+
+
+---
+## 🤝 Contributors
+
+<table style="font-family: Arial, sans-serif; line-height: 1.6;">
+  <tr>
+    <td><strong>János Rostás</strong></td>
+    <td>
+      👨‍💻 Electronic & Computer Engineer<br>
+      🧠 Passionate about AI, LLMs, and RAG systems<br>
+      🐳 Docker & Linux Power User<br>
+      🔧 Raspberry Pi Builder | Automation Fanatic<br>
+      💻 Git & GitHub DevOps Explorer<br>
+      📦 Loves tinkering with Ollama, containerized models, and APIs<br>
+      🌐 <a href="https://janosrostas.co.uk" target="_blank">janosrostas.co.uk</a><br>
+      🔗 <a href="https://www.linkedin.com/in/janos-rostas/" target="_blank">LinkedIn</a><br>
+      🐙 <a href="https://github.com/Janos11" target="_blank">GitHub</a> |
+      🐋 <a href="https://hub.docker.com/u/janos11" target="_blank">Docker Hub</a>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>ChatGPT</strong></td>
+    <td>
+      🤖 AI Pair Programmer by OpenAI<br>
+      💡 Supports brainstorming, prototyping, and debugging<br>
+      📚 Backed by years of programming knowledge and best practices
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Grok</strong></td>
+    <td>
+      🤖 AI Assistant by xAI<br>
+      🚀 Accelerates human scientific discovery<br>
+      💬 Provides helpful and truthful answers<br>
+      🌐 Accessible on <a href="https://grok.com" target="_blank">grok.com</a> and X platforms
+    </td>
+  </tr>
+</table>
