@@ -24,14 +24,25 @@ async function sendToOllama(message) {
   try {
     //const response = await fetch('http://192.168.1.189:11434/api/generate', {
     //const response = await fetch(`${ollamaHost}/api/generate`, {
-    const response = await fetch(`/api/ollama`, {
+    //const response = await fetch(`/api/ollama`, {
+    //  method: 'POST',
+    //  headers: {
+    //    'Content-Type': 'application/json',
+    //  },
+    //  body: JSON.stringify({
+    //    model: 'tinyllama',
+    //    prompt: message,
+    //    stream: true
+    //  }),
+    //});
+    const response = await fetch('/api/ollama', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: 'tinyllama',
-        "messages": [{"role": "user", "content": message}]
+        messages: [{ role: 'user', content: message }],
         stream: true
       }),
     });
