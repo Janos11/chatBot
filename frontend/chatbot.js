@@ -35,7 +35,7 @@ async function sendToOllama(message) {
       body: JSON.stringify({
         model: 'tinyllama',
         messages: [{ role: 'user', content: message }],
-        stream: true
+        stream: true,
         options: {
           num_predict: 32, // Limits response to ~32 tokens (about 1-2 lines)
           temperature: 0.7, // Controls randomness (0-1, lower is more deterministic)
