@@ -92,14 +92,14 @@ Then open your browser: 👉 `http://localhost:85` or `http://<your-pi-ip>:85`
 
 ## 📌 Documentation
 
-| Section                          | Status                                                                                                 |
-|----------------------------------|--------------------------------------------------------------------------------------------------------|
-| 🔧 Deployment Guide              | Coming soon                                                                                            |
-| 📚 How to Add Documents for RAG  | Coming soon                                                                                            |
-| 🧪 Testing Instructions          | Coming soon                                                                                            |
+| Section                         | Status                                                                                                 |
+|---------------------------------|--------------------------------------------------------------------------------------------------------|
+| 🔧 Resolving CORS issue         | [resolving_cors_issue_ollama_api_integration.md](documents/resolving_cors_issue_ollama_api_integration.md)                                                                                           |
+| 📚 How to Add Documents for RAG | Coming soon                                                                                            |
+| 🧪 Testing Instructions         | Coming soon                                                                                            |
 | ✅ Full Stack Summary            | Coming soon                                                                                            |
-| 🗂️ Git Commands        | [git\_cheat\_sheet.md](https://github.com/Janos11/Robot_Web_Controller/blob/master/git_cheat_sheet.md) |
-| Docker Network                   | [docker_network.md](documents/docker_network.md)
+| 🗂️ Git Commands                | [git\_cheat\_sheet.md](https://github.com/Janos11/Robot_Web_Controller/blob/master/git_cheat_sheet.md) |
+| Docker Network                  | [docker_network.md](documents/docker_network.md)
 
 
 ## ✅ Full Stack Summary
