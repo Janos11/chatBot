@@ -8,6 +8,7 @@ const chatLauncher = document.getElementById("chat-launcher");
 const ollamaHost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:11434'
   : `http://${window.location.hostname}:11434`;
+  console.log('ollamaHost:',ollamaHost);
 
 // Add message to chat
 function addMessage(msg, sender = "bot") {
