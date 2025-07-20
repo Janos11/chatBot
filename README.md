@@ -29,30 +29,35 @@ allowing the chatbot to serve domain-specific answers from uploaded documents or
 - Works standalone (basic responses) or connected to the Flask API.
 - Built for ease of customization — simply copy to your website.
 
+
+
 ---
 
-## 🧠 Backend
+## 🧠 Backend Architecture
 
-| Feature            | Description                                     |
-|--------------------|-------------------------------------------------|
-| `app.py`           | Flask app exposing chat API via `/chat`        |
-| `chatbot_logic.py` | Handles request logic, communicates with Ollama|
-| Apache2            | Used for routing requests (custom `httpd.conf`)|
-| yaml               | Serves frontend, CGI backend, and Flask in one |
+This project uses a containerized microservice-style setup with clear separation between the chatbot frontend and the LLM engine.
 
-- Modular Python code with future RAG support via document ingestion.
-- Prepares for integration with external tools like LangChain or Haystack.
+### 🔧 Components
 
+| Component  | Role                                                                 |
+|------------|----------------------------------------------------------------------|
+| `chatbot`  | Web interface container that serves the frontend and proxies chat requests to the LLM backend |
+| `llama`    | LLM backend container running Ollama, exposing models on port `11434` |
+
+- The **`chatbot` container** runs a web app (currently static HTML + JavaScript) and connects to the **Ollama API** in the `llama` container.
+- Apache2 is configured with a custom `httpd.conf` to handle proxy routing.
 ---
 
 ## 🧪 LLM Integration with Ollama
 
-| Component    | Port  | Description                           |
-|--------------|-------|---------------------------------------|
-| Ollama API   | 11434 | Local LLM model server (e.g., llama3) |
+| Component    | Port   | Description                                |
+|--------------|--------|--------------------------------------------|
+| Ollama API   | `11434`| Local LLM model server (e.g., `tinyllama`) |
 
-- Supports pulling and running open LLMs like `llama3`, `mistral`, etc.
-- Models are downloaded once and stored in Docker volume (`ollama_models`).
+- Supports pulling and running open LLMs like `tinyllama`, `mistral`, and others via [Ollama](https://ollama.com).
+- Models are downloaded once and stored in a Docker volume (`ollama_models`).
+- You can interact with the LLM via simple HTTP requests to `http://localhost:11434/api/chat`.
+
 
 ---
 
