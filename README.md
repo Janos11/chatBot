@@ -10,6 +10,11 @@ allowing the chatbot to serve domain-specific answers from uploaded documents or
 
 ---
 
+<div style="display: flex; justify-content: center; align-items: center;">
+    <img src="screenshots/ChatBot-Working_2025-07-20_at_15.13.48.png" 
+         alt="Screenshot - chatBot working on test website, OK" 
+         style="width: 76%; height: auto;"/>
+</div>
 
 ---
 
