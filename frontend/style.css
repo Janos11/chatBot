@@ -26,13 +26,6 @@ body {
   background-color: #ecf0f1;
 }
 
-/* Headings */
-@media (max-width: 768px){
-  h1 {
-  margin-left: 50px; /* enough space for the menu icon */
-  font-size: 1.5em;   /* optional: shrink font size slightly on small screens */
-  }
-}
 
 h1 {
   font-size: 2.5rem;
@@ -179,31 +172,67 @@ h2 {
   color: #31708f;
 }
 
-/* Navigation Menu Styles */
-#mobile-nav-toggle1 {
-  color: #2c3e50;
-  transition: color 0.3s;
-  position: absolute;
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ <!-- Menu Toggle Button 2 -->
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+#menu-toggle-2 {
+  position: fixed;
+  right: 20px;
   top: 20px;
-  left: 20px;
-  font-size: 3rem;
-  background: none;
-  border: none;
+  opacity: 0;
+  /*visibility: hidden;*/
+  visibility: visible;
+  width: 40px;
+  height: 40px;
+  background-color: #2c3e50; /* Match navmenu1 background */
+  border-radius: 50%;
+  z-index: 100000; /* lower than chat-launcher (99998) */
+  transition: all 0.4s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white; /* Outline */
+  border-width: 1.5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Bubble feel */
   cursor: pointer;
-  z-index: 999;
+  user-select: none;
 }
 
-#mobile-nav-toggle1:hover {
+/* Spin animation on toggle */
+#menu-toggle-2.spin {
+  animation: spin 1.5s ease;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#menu-toggle-2 i {
+  position: absolute;
+  font-size: 24px;
+  color: white;
+  z-index: 2;
+}
+
+#menu-toggle-2:hover {
   transform: scale(1.2);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.4);
+  background-color: #34495e; /* Slightly lighter on hover */
 }
 
-#mobile-nav-toggle1.menu-open {
-  color: white; /* when menu is opened */
+#menu-toggle-2.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 20px;
 }
 
-#mobile-nav-toggle1.menu-open:hover {
-  color: #3498db;
-}
 
 .navmenu1 {
   width: 230px;
@@ -211,6 +240,21 @@ h2 {
   color: white;
   padding: 20px 15px;
   padding: 100px 15px 20px 15px;
+
+  position: fixed;   /* fixed or absolute if inside a positioned parent */
+  left: 0px;       /* align right, or left */
+  max-height: 100vh;  /* limit height so it doesn’t overflow */
+  overflow-y: auto;  /* enable scrolling if content is tall */
+  box-shadow: 0 0 10px rgba(0,0,0,2.2);
+  z-index: 99999;
+}
+
+/* Large screen */
+@media (min-width: 769px) {
+  .navmenu1 {
+    top: 0;
+    bottom: 0;
+  }
 }
 
 .navmenu1 ul {
@@ -257,10 +301,6 @@ h2 {
 
   .movement-controls button {
     width: 100%;
-  }
-
-  #mobile-nav-toggle1 {
-    align-self: flex-start;
   }
 
 
@@ -577,17 +617,26 @@ box-shadow: 0 0 20px rgb(0 0 0 / 0.2);
 }
 
 .hero h1 {
-font-size: 3rem;
-margin-bottom: 0.3rem;
-text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    color: white;
+    font-size: 3rem;
+    margin-bottom: 0.3rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+
+    background-color: rgba(0, 0, 0, 0.4); /* Soft dark background */
+    padding: 0.4rem 1rem;
+    border-radius: 12px;
 }
 
 .hero p {
-font-size: 1.25rem;
-font-weight: 500;
-max-width: 600px;
-margin: 0 auto 1.5rem;
-text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    font-size: 1.25rem;
+    font-weight: 500;
+    max-width: 600px;
+    margin: 0 auto 1.5rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+
+    background-color: rgba(0, 0, 0, 0.4); /* Soft dark background */
+    padding: 0.4rem 1rem;
+    border-radius: 12px;
 }
 
 .btn-primary {

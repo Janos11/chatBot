@@ -1,11 +1,33 @@
-// Navigation Menu v1
-const toggleBtn1 = document.getElementById('mobile-nav-toggle1');
+// Menu Toggle Button 2
+const toggleBtn1 = document.getElementById('menu-toggle-2');
 const nav1 = document.getElementById('navmenu1');
 
 toggleBtn1.addEventListener('click', () => {
-nav1.classList.toggle('hidden');
-toggleBtn1.classList.toggle("menu-open");
+    nav1.classList.toggle('hidden');
+    toggleBtn1.classList.toggle("menu-open");
+    toggleBtn1.classList.add('spin');         // start spin
+
+    // Swap icon after half spin (200ms)
+    setTimeout(() => {
+        if (nav1.classList.contains('hidden')) {
+          //toggleBtn1.textContent = '☰';  // menu closed → hamburger
+          toggleBtn1.innerHTML = '<i class="bi bi-list"></i>';
+        } else {
+          //toggleBtn1.textContent = '✕';  // menu open → X
+          toggleBtn1.innerHTML = '<i class="bi bi-x"></i>';
+        }
+        toggleBtn1.classList.remove('spin');  // reset spin
+    }, 300);
 });
+
+// Navigation Menu v1
+//const toggleBtn1 = document.getElementById('mobile-nav-toggle1');
+//const nav1 = document.getElementById('navmenu1');
+
+//toggleBtn1.addEventListener('click', () => {
+//nav1.classList.toggle('hidden');
+//toggleBtn1.classList.toggle("menu-open");
+//});
 
 
 // <!-- Go To Top Button Simple -->
