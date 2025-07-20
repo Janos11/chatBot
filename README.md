@@ -20,13 +20,14 @@ allowing the chatbot to serve domain-specific answers from uploaded documents or
 
 ## 🌐 Frontend
 
-| Feature              | Description                                 |
-|----------------------|---------------------------------------------|
-| `index.html`         | Chat UI, can be embedded into any website   |
-| `style.css`          | Handles layout and responsiveness           |
-| `script.js`          | Sends/receives chat messages via AJAX       |
+| Feature                           | Description                                          |
+|-----------------------------------|------------------------------------------------------|
+| [index.html](frontend/index.html) | Chat UI, can be embedded into any website            |
+| [style.css](frontend/style.css)   | Handles layout and responsiveness                    |
+| [chatbot.js](frontend/chatbot.js) | Sends and receives chat messages using the `fetch()` |
 
-- Works standalone (basic responses) or connected to the Flask API.
+- Requires a running backend (Apache proxy + Ollama) to function.
+- Includes chat toggling, smooth scrolling, and animated message handling.
 - Built for ease of customization — simply copy to your website.
 
 
@@ -35,24 +36,24 @@ allowing the chatbot to serve domain-specific answers from uploaded documents or
 
 ## 🧠 Backend Architecture
 
-This project uses a containerized microservice-style setup with clear separation between the chatbot frontend and the LLM engine.
+This project uses a [containerized](docker-compose.yml) microservice-style setup with clear separation between the chatbot frontend and the LLM engine.
 
 ### 🔧 Components
 
-| Component  | Role                                                                 |
-|------------|----------------------------------------------------------------------|
-| `chatbot`  | Web interface container that serves the frontend and proxies chat requests to the LLM backend |
-| `llama`    | LLM backend container running Ollama, exposing models on port `11434` |
+| Component | Role                                                                                          |
+|-----------|-----------------------------------------------------------------------------------------------|
+| `chatbot` | Web interface container that serves the frontend and proxies chat requests to the LLM backend |
+| `ollama`  | LLM backend container running Ollama, exposing models on port `11434`                         |
 
-- The **`chatbot` container** runs a web app (currently static HTML + JavaScript) and connects to the **Ollama API** in the `llama` container.
-- Apache2 is configured with a custom `httpd.conf` to handle proxy routing.
+- The **`chatbot` container** runs a web app (currently static HTML + JavaScript) and connects to the **Ollama API** in the `ollama` container.
+- Apache2 is configured with a custom [httpd.conf](backend/httpd.conf) to handle proxy routing.
 ---
 
 ## 🧪 LLM Integration with Ollama
 
-| Component    | Port   | Description                                |
-|--------------|--------|--------------------------------------------|
-| Ollama API   | `11434`| Local LLM model server (e.g., `tinyllama`) |
+| Component  | Port    | Description                                                                      |
+|------------|---------|----------------------------------------------------------------------------------|
+| Ollama API | `11434` | Local LLM model server (e.g., [tinyllama](https://ollama.com/library/tinyllama)) |
 
 - Supports pulling and running open LLMs like `tinyllama`, `mistral`, and others via [Ollama](https://ollama.com).
 - Models are downloaded once and stored in a Docker volume (`ollama_models`).
@@ -63,8 +64,8 @@ This project uses a containerized microservice-style setup with clear separation
 
 ## 🐳 Docker Setup
 
-[docker-compose.yml](docker-compose.yml)
-
+[docker-compose.yml](docker-compose.yml)<br/>
+[Dockerfile](Dockerfile)
 
 
 ---
@@ -91,38 +92,39 @@ Then open your browser: 👉 `http://localhost:85` or `http://<your-pi-ip>:85`
 ---
 ### 🧾 Technologies Used
 
-| Technology       | Purpose                                | Link |
-|------------------|----------------------------------------|------|
-| Docker          | Containerization                      | [docker.com](https://www.docker.com) |
-| Flask           | Lightweight backend API               | [Flask](https://flask.palletsprojects.com) |
-| Ollama          | LLM API and model hosting             | [ollama.com](https://ollama.com) |
-| Apache2         | Web server and reverse proxy          | [httpd.apache.org](https://httpd.apache.org) |
-| HTML/CSS/JS     | Frontend interface                    | - |
-| Raspberry Pi    | Target embedded deployment platform   | [raspberrypi.com](https://www.raspberrypi.com) |
+| Technology   | Purpose                             | Link                                           |
+|--------------|-------------------------------------|------------------------------------------------|
+| Docker       | Containerization                    | [docker.com](https://www.docker.com)           |
+| Flask        | Lightweight backend API             | [Flask](https://flask.palletsprojects.com)     |
+| Ollama       | LLM API and model hosting           | [ollama.com](https://ollama.com)               |
+| Apache2      | Web server and reverse proxy        | [httpd.apache.org](https://httpd.apache.org)   |
+| HTML/CSS/JS  | Frontend interface                  | -                                              |
+| Raspberry Pi | Target embedded deployment platform | [raspberrypi.com](https://www.raspberrypi.com) |
 
 ## 📌 Documentation
 
-| Section                         | Status                                                                                                 |
-|---------------------------------|--------------------------------------------------------------------------------------------------------|
-| 🔧 Resolving CORS issue         | [resolving_cors_issue_ollama_api_integration.md](documents/resolving_cors_issue_ollama_api_integration.md)                                                                                           |
-| 📚 How to Add Documents for RAG | Coming soon                                                                                            |
-| 🧪 Testing Instructions         | Coming soon                                                                                            |
-| ✅ Full Stack Summary            | Coming soon                                                                                            |
-| 🗂️ Git Commands                | [git\_cheat\_sheet.md](https://github.com/Janos11/Robot_Web_Controller/blob/master/git_cheat_sheet.md) |
-| 🦙 Ollama Commands              | [ollama_commands.md](https://github.com/Janos11/Local-LLM-Backend-Container/blob/main/notebooks/ollama_commands_cheat_sheet.md)
+| Section                         | Status                                                                                                                           |
+|---------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| 🔧 Resolving CORS issue         | [resolving_cors_issue_ollama_api_integration.md](documents/resolving_cors_issue_ollama_api_integration.md)                       |
+| 📚 How to Add Documents for RAG | Coming soon                                                                                                                      |
+| 🧪 Testing Instructions         | Coming soon                                                                                                                      |
+| ✅ Full Stack Summary            | Coming soon                                                                                                                      |
+| 🗂️ Git Commands                | [git\_cheat\_sheet.md](https://github.com/Janos11/Robot_Web_Controller/blob/master/git_cheat_sheet.md)                           |
+| 🦙 Ollama Commands              | [ollama_commands.md](https://github.com/Janos11/Local-LLM-Backend-Container/blob/main/notebooks/ollama_commands_cheat_sheet.md)  |
 
 
 ## ✅ Full Stack Summary
 
-This project qualifies as a full-stack chatbot system:
+This project is a containerized, local LLM chatbot system with a complete frontend-to-backend pipeline:
 
-| Component       | Technology/Description                     |
-|-----------------|--------------------------------------------|
-| **Frontend**    | Interactive, embeddable UI (HTML/CSS/JS)   |
-| **Backend**     | Flask + CGI logic                          |
-| **AI Layer**    | Local LLM via Ollama                       |
-| **Deployment**  | Docker Compose orchestration               |
-| **Hosting**     | Raspberry Pi or cloud VPS                  |
+| Component       | Technology/Description                                           |
+|-----------------|------------------------------------------------------------------|
+| **Frontend**    | Embeddable chat UI built with HTML, CSS, and JavaScript          |
+| **Proxy Layer** | Apache2 (inside `chatbot` container) proxies to Ollama API       |
+| **AI Layer**    | Ollama running local LLMs (e.g., `tinyllama`, `mistral`)         |
+| **Deployment**  | Docker Compose orchestrates both `chatbot` and `ollama` services |
+| **Hosting**     | Designed for local deployment (e.g., Raspberry Pi) or cloud VPS  |
+
 
 ---
 ## 🤝 Contributors
